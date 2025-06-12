@@ -30,7 +30,7 @@ sudo chown -R YOUR_USER:www-data /var/www/html
 sudo chmod -R 755 /var/www/html
 ```
 
-**c)** Copy the **index.html** file into ``/var/www/html``
+**c)** Copy all files of this repository into ``/var/www/html``
 
 **c)** Install ffmpeg
 ```bash
@@ -135,7 +135,7 @@ sudo systemctl enable ffmpeg-stream-fahrradkeller.service
 sudo systemctl start ffmpeg-stream-fahrradkeller.service
 ```
 
-**f)** Add the stream to the camera JSON inside the `index.html`
+**f)** Add your newly created ffmpeg stream to the `streams.json` file:
 ```json
 {
     id: "your-cam-name",

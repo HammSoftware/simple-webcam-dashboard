@@ -1,0 +1,8 @@
+[
+  {
+    "id": "your-camera-name",
+    "label": "Your camera name",
+    "src": "stream/your-camera-name/stream.m3u8"
+  }
+
+]
