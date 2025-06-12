@@ -9,8 +9,8 @@ All you need is a Linux server running `ffmpeg`.\
 For example, a Raspberry Pi 5 can easily handle 12 or more streams simultaneously without breaking a sweat.\
 Using `ffmpeg` and `nginx`, we are setting up a small webserver.
 
-Feel free to use and modify this source code any way you like.
-
+Feel free to use and modify this source code any way you like.\
+Source code created by [Hamm Software](https://www.hamm.software).
 
 ### Instructions ###
 
