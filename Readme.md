@@ -131,8 +131,8 @@ WantedBy=multi-user.target
 **e)** Run:
 ```bash
 sudo systemctl daemon-reload
-sudo systemctl enable ffmpeg-stream-fahrradkeller.service
-sudo systemctl start ffmpeg-stream-fahrradkeller.service
+sudo systemctl enable ffmpeg-stream-my-cam.service
+sudo systemctl start ffmpeg-stream-my-cam.service
 ```
 
 **f)** Add your newly created ffmpeg stream to the `streams.json` file:
@@ -146,3 +146,64 @@ sudo systemctl start ffmpeg-stream-fahrradkeller.service
 
 #### 3. Test your setup ####
 A webserver should now be running at `http://your-local-ip/` and display your camera stream, simply open it in your browser.
+
+#### Optional: Periodically restart the stream services ####
+To avoid any streams being stuck due to for example connectivity errors, we can periodically restart the services.
+
+Create a shell script:
+```bash 
+sudo nano /usr/local/bin/restart-ffmpeg-streams.sh
+```
+
+The following script will restart all services with their names beginning with ``ffmpeg-stream-``, adjust it if needed.\
+Paste this, save and exit:
+
+```bash
+#!/bin/bash
+
+# Alle passenden Service-Dateien finden
+services=$(find /etc/systemd/system/ -maxdepth 1 -type f -name "ffmpeg-stream-*.service")
+
+for service_file in $services; do
+    # Extrahiere nur den Service-Namen (z.B. ffmpeg-stream-dach.service)
+    service_name=$(basename "$service_file")
+    
+    echo "Restarting $service_name..."
+    sudo /usr/bin/systemctl restart "$service_name"
+done
+```
+
+Make it executable:
+
+```bash
+sudo chmod +x /usr/local/bin/restart-ffmpeg-streams.sh
+```
+
+Edit crontab and insert a daily job, for example for 5:00h every morning:
+```bash
+sudo crontab -e
+```
+
+Insert this line, save and exit:
+```bash
+0 5 * * * /usr/local/bin/restart-ffmpeg-streams.sh >> /var/log/ffmpeg-restarts.log 2>&1
+```
+
+Test the script by executing it. You may be prompted a login.\
+To avoid that, you can allow password-less `sudo` for `systemctl` calls. Do so at your own risk.
+
+Check where your `sytemctl` is located:
+```bash
+which systemctl
+```
+
+And copy that path.
+
+```bash
+sudo visudo
+```
+
+Insert this lien on the bottom:
+```bash
+{your-user-name} ALL=NOPASSWD: {your path to systemctl, possibly: /bin/systemctl or /usr/bin/systemctl} restart ffmpeg-stream-*.service
+```
