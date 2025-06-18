@@ -52,8 +52,8 @@ Hikvision:
 
 Reolink:
 ```ini
-  rtsp://user:pass@IP:554/h264Preview_01_main # Main stream
-  rtsp://user:pass@IP:554/h264Preview_01_sub # Sub stream
+  rtsp://user:pass@IP:554/h264Preview_01_main
+  rtsp://user:pass@IP:554/h264Preview_01_sub 
 ```
 
 Dahua / Amcrest:
@@ -207,3 +207,5 @@ Insert this lien on the bottom:
 ```bash
 {your-user-name} ALL=NOPASSWD: {your path to systemctl, possibly: /bin/systemctl or /usr/bin/systemctl} restart ffmpeg-stream-*.service
 ```
+
+There is a script / basic integration for Reolink PTZ cameras here: [PTZ.md](PTZ.md).
